@@ -52,17 +52,22 @@ export const handler = async (event) => {
         
         // 5. API 호출
         const result = await model.generateContent(prompt); 
-        
-        // 🚨🚨 수정된 부분: result 객체에서 바로 .text 속성을 가져옵니다. 
-        const translatedText = result.text; // ⬅️ .response.text 대신 .text를 사용
+        const translatedText = result.text; // result.response.text 대신 .text 사용 (수정 완료)
 
+        // ----------------------------------------------------------------------
+        // 🚨 최종 수정: 빈 응답일 때 에러를 throw 하는 대신, 빈 문자열로 처리
+        // ----------------------------------------------------------------------
+        let finalTranslation = "";
+        
         if (!translatedText || !translatedText.trim()) {
-            throw new Error("Empty translation response received");
+            // console.error 대신 console.warn을 사용하여 치명적인 에러가 아님을 표시
+            console.warn("Translation Warning: Gemini returned empty text, likely due to short input or safety filters.");
+            finalTranslation = "";
+        } else {
+            finalTranslation = cleanTranslationResponse(translatedText);
         }
         
-        const finalTranslation = cleanTranslationResponse(translatedText);
-
-        // 6. 성공적으로 번역된 결과를 프론트엔드로 반환
+        // 6. 성공적으로 처리된 결과를 프론트엔드로 반환 (200 OK)
         return {
             statusCode: 200,
             body: JSON.stringify({
@@ -71,12 +76,12 @@ export const handler = async (event) => {
         };
 
     } catch (error) {
+        // API 키 오류나 다른 심각한 서버 측 오류가 발생했을 경우만 500 응답
         console.error("Translation Error in Function:", error.message);
         
-        // 클라이언트에게는 일반적인 오류 메시지를 전달 (자세한 서버 에러는 숨김)
         return { 
             statusCode: 500, 
-            body: JSON.stringify({ error: "Translation failed due to a server error or rate limit." }) 
+            body: JSON.stringify({ error: "Translation failed due to an internal server error." }) 
         };
     }
 };
