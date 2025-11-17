@@ -50,10 +50,11 @@ export const handler = async (event) => {
         
         const prompt = createTranslationPrompt(textToTranslate, targetLanguage);
         
-        // 5. API 호출: 프롬프트 문자열을 직접 전달하도록 수정했습니다. ⬅️ 수정
+        // 5. API 호출
         const result = await model.generateContent(prompt); 
         
-        const translatedText = result.response.text;
+        // 🚨🚨 수정된 부분: result 객체에서 바로 .text 속성을 가져옵니다. 
+        const translatedText = result.text; // ⬅️ .response.text 대신 .text를 사용
 
         if (!translatedText || !translatedText.trim()) {
             throw new Error("Empty translation response received");
