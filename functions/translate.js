@@ -50,8 +50,9 @@ export const handler = async (event) => {
         
         const prompt = createTranslationPrompt(textToTranslate, targetLanguage);
         
-        // 5. API 호출
-        const result = await model.generateContent({ contents: prompt });
+        // 5. API 호출: 프롬프트 문자열을 직접 전달하도록 수정했습니다. ⬅️ 수정
+        const result = await model.generateContent(prompt); 
+        
         const translatedText = result.response.text;
 
         if (!translatedText || !translatedText.trim()) {
@@ -70,6 +71,7 @@ export const handler = async (event) => {
 
     } catch (error) {
         console.error("Translation Error in Function:", error.message);
+        
         // 클라이언트에게는 일반적인 오류 메시지를 전달 (자세한 서버 에러는 숨김)
         return { 
             statusCode: 500, 
@@ -77,5 +79,3 @@ export const handler = async (event) => {
         };
     }
 };
-
-// 참고: handleTranslationError는 서버 측 로직이므로 여기서는 간단한 에러 처리를 사용했습니다.
