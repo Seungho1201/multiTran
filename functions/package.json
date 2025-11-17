@@ -1,0 +1,6 @@
+{
+  "name": "netlify-functions-dependencies",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1" 
+  }
+}

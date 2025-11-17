@@ -1,0 +1,159 @@
+.app-container {
+  height: 100vh;
+  padding: 1rem;
+  background: #d3eafc;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+}
+
+.google-style {
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.panels-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex: 1;
+  min-height: 0;
+}
+
+.output-panels {
+  display: flex;
+  flex-direction: column;
+  height: 70%;
+  min-height: 0;
+  gap: 1rem; /* Add a gap between the two output panels */
+}
+
+.input-panel-wrapper {
+  height: 30%;
+  min-height: 0; /* prevent flexbox overflow issues */
+}
+
+.translator-panel {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(133, 127, 127, 0.3);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 0;
+  position: relative;
+}
+
+.output-panels .translator-panel {
+  flex: 1;
+  min-height: 0;
+}
+
+.input-panel-wrapper .translator-panel {
+  height: 100%;
+}
+
+@media (max-width: 1024px) {
+  .app-container {
+    padding: 0.75rem;
+  }
+  
+  .output-panels {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .panels-wrapper {
+    gap: 0.75rem;
+  }
+  
+  .output-panels {
+    flex: 0.9;
+  }
+  
+  .input-panel-wrapper .translator-panel {
+    height: 300px;
+  }
+}
+
+
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: #ffffff;
+}
+
+
+.panel-body {
+  flex: 1;
+  padding: 1.5rem;
+  padding-bottom: 80px; /* Space for the fixed footer */
+  display: flex;
+  flex-direction: column;
+}
+
+.output-panels .panel-body {
+  padding: 0;
+  padding-bottom: 0; /* Override the 80px from the general rule */
+}
+
+
+.output-text {
+  width: 100%;
+  height: 100%;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #000000;
+  overflow-y: auto;
+  padding: 15px;
+  word-wrap: break-word;
+  font-weight: 400;
+  box-sizing: border-box; /* Ensure padding is included in the element's total width and height */
+}
+
+.output-text::-webkit-scrollbar {
+  width: 8px;
+}
+
+.output-text::-webkit-scrollbar-track {
+  background: #f5f5f5;
+  border-radius: 4px;
+}
+
+.output-text::-webkit-scrollbar-thumb {
+  background: #666666;
+  border-radius: 4px;
+}
+
+.output-text::-webkit-scrollbar-thumb:hover {
+  background: #333333;
+}
+
+.panel-footer {
+  position: absolute;
+  bottom: calc(50px - 1rem);
+  left: 0;
+  right: 0;
+  padding: 1rem 1.5rem;
+  background: #ffffff;
+  z-index: 10;
+}
+
+/* 로딩 애니메이션 */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
